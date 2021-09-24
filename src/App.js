@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import {Contenedor, BoxLeft, BoxRight, Title, Input, ContenedorClima} from './elementos/estilos'
+import InfoClima from './componentes/InfoClima'
+import Inicio from './componentes/Inicio'
+import {useState} from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+function App() {  
+
+  const [show, setShow] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const [word, cambiarWord] = useState('')  
+
+
+  const handleSubmit = evt =>{
+    evt.preventDefault()
+
+    if(keyword){
+      setShow(true)
+      cambiarWord(keyword)
+    }else{
+      setShow(false)
+
+    }
+  }
+  const handleChange = evt =>{
+    setKeyword(evt.target.value) 
+  }
+
+  return (  
+    <Contenedor>
+        <BoxLeft>
+            <Title>¡Encuentra el clima de tu ciudad!</Title>
+        </BoxLeft>
+        <BoxRight>
+          <ContenedorClima>
+            <form onSubmit={handleSubmit}>
+              <Input type="text" onChange={handleChange} value={keyword} placeholder="ej:Lima,peru"/>
+            </form>
+            {show?
+              <>
+               <InfoClima keyword={word}></InfoClima>
+              </> 
+            :      
+              <Inicio/> 
+            }
+            
+          </ContenedorClima>
+        </BoxRight>
+        
+    </Contenedor>
   );
 }
 
